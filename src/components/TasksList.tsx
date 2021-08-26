@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import { ItemWrapper } from './ItemWrapper';
 
 import trashIcon from '../assets/icons/trash/trash.png'
+import { TaskItem } from './TaskItem';
 
 export interface Task {
   id: number;
@@ -15,10 +16,11 @@ export interface Task {
 interface TasksListProps {
   tasks: Task[];
   toggleTaskDone: (id: number) => void;
+  editTask: (id: number, title: string) => void;
   removeTask: (id: number) => void;
 }
 
-export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps) {
+export function TasksList({ tasks, toggleTaskDone, removeTask, editTask }: TasksListProps) {
   return (
     <FlatList
       data={tasks}
@@ -28,7 +30,13 @@ export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps)
       renderItem={({ item, index }) => {
         return (
           <ItemWrapper index={index}>
-            <View>
+            <TaskItem
+              editTask={editTask}
+              removeTask={removeTask}
+              task={item}
+              toggleTaskDone={toggleTaskDone} 
+            />
+            {/* <View>
               <TouchableOpacity
                 testID={`button-${index}`}
                 activeOpacity={0.7}
@@ -57,16 +65,16 @@ export function TasksList({ tasks, toggleTaskDone, removeTask }: TasksListProps)
                   {item.title}
                 </Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               testID={`trash-${index}`}
               style={{ paddingHorizontal: 24 }}
               //TODO - use onPress (remove task) prop
               onPress={() => removeTask(item.id)}
             >
               <Image source={trashIcon} />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </ItemWrapper>
         )
       }}
@@ -115,4 +123,4 @@ const styles = StyleSheet.create({
     textDecorationLine: 'line-through',
     fontFamily: 'Inter-Medium'
   }
-})
+});
